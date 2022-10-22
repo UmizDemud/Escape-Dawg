@@ -12,6 +12,10 @@ app.get("/play", (req, res) => {
 	res.sendFile(__dirname + "/Escape Dog/play.html")
 })
 
+app.get("/", (req, res) => {
+	res.send("Umulio API")
+})
+
 app.get('*', function(req, res){
   res.status(404).send("Not sure what you were looking for...");
 });
