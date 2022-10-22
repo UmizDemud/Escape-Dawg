@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Vai&display=swap" rel="stylesheet">
+		<link
+			href="https://fonts.googleapis.com/css2?family=Creepster&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="style.css" />
+		<title>JS Game Engine</title>
+	</head>
+	<body>
+		<canvas id="canvas1"></canvas>
+		<img src="assets/player.png" id="player" alt="player" />
+		<img src="assets/layer-1.png" alt="background layer" id="layer1" />
+		<img src="assets/layer-2.png" alt="background layer" id="layer2" />
+		<img src="assets/layer-3.png" alt="background layer" id="layer3" />
+		<img src="assets/layer-4.png" alt="background layer" id="layer4" />
+		<img src="assets/layer-5.png" alt="background layer" id="layer5" />
+		<img src="assets/enemy_fly.png" alt="enemy fly" id="enemy_fly" />
+		<img src="assets/enemy_plant.png" alt="enemy plant" id="enemy_plant" />
+		<img
+			src="assets/enemy_spider_big.png"
+			alt="enemy spider big"
+			id="enemy_spider_big"
+		/>
+		<img src="assets/fire.png" alt="fire" id="fire" />
+		<img src="assets/boom.png" alt="boom" id="collisionAnimation" />
+		<img src="assets/lives.png" alt="lives" id="lives" />
+		<div id="about" class="about">
+			<h1>
+				About
+			</h1>
+			<ul>
+				<li>
+					<p>Use arrow keys to move</p>
+				</li>
+				<li>
+					<p>Press enter to roll</p>
+				</li>
+				<li>
+					<p>Escape Dog is powerless if not rolling</p>
+				</li>
+				<li>
+					<p>Score 70 points until the game ends</p>
+				</li>
+				<li>
+					<p>Press "d" for debug</p>
+				</li>
+				<li>
+					<p>Press "r" to debug</p>
+				</li>
+			</ul>
+			<p></p>
+		</div>
+		<button id="rulesButton" class="rulesButton">Rules</button>
+		<script type="module" src="script.js"></script>
+		<script>
+			var display = false;
+			var button = document.getElementById("rulesButton");
+			button.addEventListener('click', () => {
+				var about = document.getElementById("about")
+				about.style.display = display ? "block" : "none"
+				display = !display;
+			})
+		</script>
+	</body>
+</html>
