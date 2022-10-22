@@ -1,4 +1,13 @@
 {
+  "name": "umulio-space",
+  "version": "1.0.0",
+  "description": "space for my porfolio and APIs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Umut",
+  "keywords": ["portfolio", "developer", "frontend", "backend", "API"],
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
