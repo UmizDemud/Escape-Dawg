@@ -20,7 +20,7 @@ app.get('*', function(req, res){
   res.status(404).send("Not sure what you were looking for...");
 });
 
-const port = 3000 || process.env.PORT;
+const port = process.env.PORT || 3000;
 const start = async () => {
 	try {
 		// await connectDB(process.env.MONGO_URL);
