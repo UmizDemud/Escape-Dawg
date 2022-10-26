@@ -6,10 +6,18 @@ const path = require('path')
 const app = express();
 app.use(express.json());
 
-app.use(express.static("Escape Dog"))
 
-app.get("/play", (req, res) => {
-	res.sendFile(__dirname + "/Escape Dog/play.html")
+
+app.use(express.static("public/Sea Horse"))
+
+app.get("/seahorse", (req, res) => {
+	res.sendFile(__dirname + "/public/Sea Horse/play.html")
+})
+
+app.use(express.static("public/Escape Dog"))
+
+app.get("/escapedog", (req, res) => {
+	res.sendFile(__dirname + "/public/Escape Dog/play.html")
 })
 
 app.get("/", (req, res) => {
