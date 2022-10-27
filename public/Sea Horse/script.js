@@ -12,10 +12,12 @@ window.addEventListener("load", function() {
 						 e.key === "ArrowDown") && 
 						 this.game.keys.indexOf(e.key) === -1) {
 					this.game.keys.push(e.key);
-				} else if (e.key === " ") {
+				} else if (e.key === " " && !this.game.pause) {
 					this.game.player.shootTop();
 				} else if (e.key === "d") {
 					this.game.debug = !this.game.debug;
+				} else if (e.key === "Escape") {
+					this.game.pause = !this.game.pause;
 				}
 			})
 			window.addEventListener("keyup", (e) => {
@@ -397,19 +399,34 @@ window.addEventListener("load", function() {
 			this.fontSize = 25;
 			this.fontFamily = 'Bangers';
 			this.color = 'white';
+			this.settingsImage = document.getElementById("gears");
+			this.frameX = 0;
+			this.frameY = 0;
+			this.spriteSize = 50;
+			this.sizeModifier = 0.5;
+			this.size = this.spriteSize * this.sizeModifier;
 		}
 		draw(context) {
 			context.save();
+			// settings
+			context.drawImage(this.settingsImage,
+				this.frameX * this.spriteSize, this.frameY * this.spriteSize,
+				this.spriteSize, this.spriteSize, this.game.width - this.size - 10, 5, this.size, this.size);
+			context.font = '15px ' + this.fontFamily;
+			context.fillText("Esc",  this.game.width - this.size - 7, 45);
+			if (this.game.pause) {
+				this.drawSettings(context);
+			}
 			context.fillStyle = this.color;
 			context.shadowOffsetX = 2;
 			context.shadowOffsetY = 2;
 			context.shadowColor = "black";
-			context.font = this.fontSize + 'px' + this.fontFamily;
+			context.font = this.fontSize + 'px ' + this.fontFamily;
 			// score
-			context.fillText('Score: ' + this.game.score, 20, 40);
+			context.fillText('Score: ' + this.game.score, 20, 30);
 			// timer
 			const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
-			context.fillText("Timer: " + formattedTime, 20, 100);
+			context.fillText("Timer: " + formattedTime, 20, 90);
 			// game over messages
 			if (this.game.gameOver) {
 				context.textAlign = "center";
@@ -432,9 +449,25 @@ window.addEventListener("load", function() {
 				context.fillStyle = "#ffffbd";
 			}
 			for (let i = 0; i < this.game.ammo; i++) {
-				context.fillRect(20 + 5 * i, 50, 3, 20);
+				context.fillRect(20 + 5 * i, 40, 3, 20);
 			}
 			context.restore();
+		}
+		drawSettings(context) {
+			let start = 100;
+			const lineHeight = 60;
+			context.fillStyle = "#333d";
+			context.fillRect(50, 50, this.game.width - 100, this.game.height - 100);
+			start += lineHeight;
+			context.fillStyle = "#fff";
+			context.font = "30px " + this.fontFamily;
+			context.fillText("You can move the sentinal sea horse using up and down arrow keys", 100, start);
+			start += lineHeight;
+			context.fillText("The space button shoots at the enemies", 100, start);
+			start += lineHeight;
+			context.fillText("The shiny fishes are called lucky. Collide with them to gain power up!", 100, start);
+			start += lineHeight;
+			context.fillText(`You must reach to ${this.game.winningScore} score in ${this.game.timeLimit/1000} seconds to win!`, 100, start);
 		}
 	}
 
@@ -455,7 +488,7 @@ window.addEventListener("load", function() {
 	class Game {
 		constructor(width, height) {
 			this.music = new Audio();
-			this.music.src = "/assets/SoundPack/music.mp3"
+			this.music.src = "assets/SoundPack/music.mp3"
 			this.muted = "true"
 			this.music.addEventListener('ended', function() {
 				this.currentTime = 0;
@@ -485,6 +518,7 @@ window.addEventListener("load", function() {
 			this.timeLimit = 60000;
 			this.speed = 1;
 			this.debug = false;
+			this.pause = false;
 		}
 		update(deltaTime) {
 			if (!this.gameOver) {
@@ -577,6 +611,9 @@ window.addEventListener("load", function() {
 				enemy.draw(context);
 			})
 			this.background.layer4.draw(context);
+			if (this.pause) {
+				this.ui.drawSettings(context);
+			}
 		}
 		addEnemy() {
 			const randomize = Math.random();
@@ -617,7 +654,7 @@ window.addEventListener("load", function() {
 		lastTime = timeStamp;
 		ctx.clearRect(0,0,canvas.width, canvas.height);
 		game.draw(ctx);
-		game.update(deltaTime);
+		if (!game.pause) game.update(deltaTime);
 		requestAnimationFrame(animate)
 	}
 	animate(0); 
